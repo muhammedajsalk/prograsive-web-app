@@ -4,6 +4,7 @@ self.addEventListener("install",function(event){
         caches.open("static").then((cache)=>{
             cache.add("/js/jquery-3.5.1.min.js")
             cache.add("/js/script.js")
+            cache.add("/")
         })
     );
    
