@@ -1,7 +1,7 @@
 self.addEventListener("install",function(event){
     console.log("installed",event);
     event.waitUntil(
-        caches.open("static").then((cache)=>{
+        caches.open("static-v3").then((cache)=>{
             cache.addAll([
                 "/",
                 "/index.html",
@@ -25,6 +25,16 @@ self.addEventListener("install",function(event){
 
 self.addEventListener("activate",function(event){
     console.log("Activated",event);
+    event.waitUntil(
+        caches.keys().then((keyList)=>{
+           return Promise.all(keyList.map((key)=>{
+              if(key !== "static-v3" && key !== "dynamic"){
+                console.log(key);
+                return caches.delete(key);
+              }
+           }))
+        })
+    )
     return self.clients.claim();
 });
 
